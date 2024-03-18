@@ -13,6 +13,8 @@
                 <li><NuxtLink to="/">Home</NuxtLink></li>
                 <li><NuxtLink to="/about">About</NuxtLink></li>
                 <li><NuxtLink to="/activities">Activities</NuxtLink></li>
+                <li><NuxtLink to="/activities/persons">People</NuxtLink></li>
+                <li><NuxtLink to="/activities/organizations">Organizations</NuxtLink></li>
             </ul>
         </footer>
     </div>

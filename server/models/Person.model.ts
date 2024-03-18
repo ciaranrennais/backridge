@@ -15,6 +15,10 @@ const schema: mongoose.Schema = new mongoose.Schema(
             type: String,
             required: true,
         },
+        personID: {
+            type: Number,
+            required: true
+        }
     },
     { timestamps: true, strictPopulate: false }
 );
