@@ -14,6 +14,10 @@
  //  fetch the products
  const { data: person } = await useFetch(uri, { personID: id })
 
+ if ( !person.value ) {
+     throw createError({ statusCode: 404, statusMessage: "Person not found", fatal: true});
+ }
+ 
  definePageMeta({
      layout: "activities",
  })
