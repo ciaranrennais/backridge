@@ -13,8 +13,12 @@ const schema: mongoose.Schema = new mongoose.Schema(
         },
         contactPerson: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Person",
+            ref: "Person"
         },
+        orgID: {
+            type: Number,
+            required: true
+        }
     },
     { timestamps: true, strictPopulate: false }
 );
