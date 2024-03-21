@@ -9,6 +9,15 @@
                 </div>
             </div>
         </div>
+
+        <div>
+            <form @submit.prevent="submitForm" id="personForm">
+                <input v-model="form.firstname" type="text" name="firstname" placeholder="First name" required></input>
+                <input v-model="form.lastname" type="text" name="lastname" placeholder="Last name" required></input>
+                <input v-model="form.email" type="email" name="email" placeholder="Enter email" required></input>
+                <button type="submit" class="btn">Send</button>
+            </form>
+        </div>
     </div>
 
 </template>
@@ -19,6 +28,37 @@
  })
 
  const { data: people } = await useFetch('/api/persons')
+</script>
+
+<script>
+ export default {
+     name: 'personForm',
+     data() {
+         return {
+             form: {
+                 firstname: "",
+                 lastname: "",
+                 email: ""
+             }
+         };
+     },
+     methods: {
+         submitForm: async function() {
+             const formData = new FormData();
+             for (let [key, value] of Object.entries(this.form)) {
+                 formData.append(key, value);
+             }
+             await useFetch('/api/persons/create', {
+                 method: 'POST',
+                 body: formData
+             }).catch((e) => {
+                 console.log("ERROR", e.data.message);
+             }).then(async (data) => {
+                 reloadNuxtApp()
+             });
+         }
+     }
+ }
 </script>
 
 <style scoped>

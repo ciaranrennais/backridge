@@ -3,8 +3,8 @@
         <h2>{{ organization.name }}</h2>
         <p>{{ organization.countryISOCode }}</p>
         <h2>Contact Person</h2>
-        <p>{{ contact.firstname }} {{ contact.lastname }}</p>
-        <p>{{ contact.email }}</p>
+        <p>{{ organization.contactPerson.firstname }} {{ organization.contactPerson.lastname }}</p>
+        <p>{{ organization.contactPerson.email }}</p>
     </div>
     <div>
         <NuxtLink class="btn" to="/activities/organizations">Back</NuxtLink>
@@ -17,9 +17,7 @@
 
  var contact;
  //  fetch the products
- const { data: organization } = await useFetch(uri, { orgID: id }).then(() => {
-     alert('OK')
- })
+ const { data: organization } = await useFetch(uri, { orgID: id })
  
  if ( !organization.value ) {
      throw createError({ statusCode: 404, statusMessage: "Organization not found", fatal: true});
