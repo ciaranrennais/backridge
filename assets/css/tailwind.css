@@ -13,4 +13,7 @@ body {
   .btn-danger {
     @apply bg-[#f32013] text-white px-3 py-2 rounded-md text-sm text-white;
   }
+  .btn-warning {
+    @apply bg-[#ffcc00] text-white px-3 py-2 rounded-md text-sm text-white;
+  }
 }

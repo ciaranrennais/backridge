@@ -10,8 +10,10 @@
             </div>
         </div>
 
+        <button class="btn" @click="addPerson" id="addPersonButton">Add Person</button>
+
         <div>
-            <form @submit.prevent="submitForm" id="personForm">
+            <form @submit.prevent="submitForm" id="personForm" v-if="form.showForm">
                 <input v-model="form.firstname" type="text" name="firstname" placeholder="First name" required></input>
                 <input v-model="form.lastname" type="text" name="lastname" placeholder="Last name" required></input>
                 <input v-model="form.email" type="email" name="email" placeholder="Enter email" required></input>
@@ -38,7 +40,8 @@
              form: {
                  firstname: "",
                  lastname: "",
-                 email: ""
+                 email: "",
+                 showForm: false
              }
          };
      },
@@ -56,10 +59,25 @@
              }).then(async (data) => {
                  reloadNuxtApp()
              });
+         },
+         addPerson: function() {
+             this.form.showForm = !this.form.showForm;
+             let button = document.getElementById("addPersonButton");
+             if ( !this.form.showForm ) {
+                 button.textContent = "Add Person";
+                 button.classList.remove('btn-warning');
+                 button.classList.add('btn');
+                 this.form.firstname = this.form.lastname = this.form.email = "";
+             } else {
+                 button.textContent = "Cancel";
+                 button.classList.remove('btn');
+                 button.classList.add('btn-warning');
+             }
          }
      }
  }
 </script>
+
 
 <style scoped>
  h2 {
