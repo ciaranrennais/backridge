@@ -38,6 +38,8 @@
 </script>
 
 <script>
+ import useToast from "/components/useToast";
+
  export default {
      name: 'personForm',
      data() {
@@ -60,9 +62,10 @@
                  method: 'POST',
                  body: formData
              }).catch((e) => {
-                 console.log("ERROR", e.data.message);
+                 useToast().error(e.data.message);
              }).then(async (data) => {
-                 reloadNuxtApp()
+                 await reloadNuxtApp();
+                 useToast().success('Person created');
              });
          },
          addPerson: function() {
