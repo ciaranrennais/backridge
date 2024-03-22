@@ -1,12 +1,25 @@
 <template>
     <div v-if="!form.showForm">
-        <p>{{ person.firstname }}</p>
-        <p>{{ person.lastname }}</p>
-        <p>{{ person.email }}</p>
+        <table class="w-1/4">
+            <tbody>
+                <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                    <td class="font-bold">First name</td>
+                    <td>{{ person.firstname }}</td>
+                </tr>
+                <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                    <td class="font-bold">Last name</td>
+                    <td>{{ person.lastname }}</td>
+                </tr>
+                <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                    <td class="font-bold">Email</td>
+                    <td>{{ person.email}}</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
     <div>
-        <form @submit.prevent="submitForm(person)" id="personForm" v-if="form.showForm">
+        <form @submit.prevent="submitForm(person)" id="personForm" v-if="form.showForm" class="flex space-x-4">
             <input v-model="person.firstname" type="text" name="firstname" placeholder="First name" required></input>
             <input v-model="person.lastname" type="text" name="lastname" placeholder="Last name" required></input>
             <input v-model="person.email" type="email" name="email" placeholder="Enter email" required></input>
@@ -14,10 +27,12 @@
         </form>
     </div>
 
-    <button class="btn-warning" @click="editPerson" id="editPersonButton">Edit Person</button>
-    <button v-if="!form.showForm" type="button" class="btn-danger" @click="deletePerson($event, person._id)">Delete</button>
+    <div class="flex space-x-4 mt-5">
+        <button class="btn-warning" @click="editPerson" id="editPersonButton">Edit Person</button>
+        <button v-if="!form.showForm" type="button" class="btn-danger" @click="deletePerson($event, person._id)">Delete</button>
 
-    <NuxtLink v-if="!form.showForm" class="btn" to="/activities/persons">Back</NuxtLink>
+        <NuxtLink v-if="!form.showForm" class="btn" to="/activities/persons">Back</NuxtLink>
+    </div>
 </template>
 
 <script setup>

@@ -5,19 +5,24 @@
         <div>
             <div class="grid grid-cols-4 gap-5">
                 <div v-for="p in people">
-                    <NuxtLink :to="`/activities/persons/${p.personID}`">{{ p.firstname }} {{ p.lastname }}</NuxtLink>
+                    <div class="box-border h-32 p-4 border-4">
+                        <NuxtLink class="url" :to="`/activities/persons/${p.personID}`">{{ p.firstname }} {{ p.lastname }}</NuxtLink>
+                        <p>{{ p.email }}</p>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <button class="btn" @click="addPerson" id="addPersonButton">Add Person</button>
+        <div class="mt-5">
+            <button class="btn" @click="addPerson" id="addPersonButton">Add Person</button>
+        </div>
 
-        <div>
-            <form @submit.prevent="submitForm" id="personForm" v-if="form.showForm">
+        <div class="mt-5">
+            <form @submit.prevent="submitForm" id="personForm" v-if="form.showForm" class="flex space-x-4">
                 <input v-model="form.firstname" type="text" name="firstname" placeholder="First name" required></input>
                 <input v-model="form.lastname" type="text" name="lastname" placeholder="Last name" required></input>
                 <input v-model="form.email" type="email" name="email" placeholder="Enter email" required></input>
-                <button type="submit" class="btn">Send</button>
+                <button type="submit" class="btn">Create</button>
             </form>
         </div>
     </div>
