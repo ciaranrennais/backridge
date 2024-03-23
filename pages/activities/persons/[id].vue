@@ -52,14 +52,20 @@
 </script>
 
 <script>
+ import useToast from "/components/useToast";
+
  export async function deletePerson(event, person_id) {
      if ( confirm('Are you sure?') ) {
          await useFetch(`/api/persons/${person_id}`, {
              method: 'DELETE'
          }).catch((e) => {
-             console.log(e.data.message);
-         }).then(async (data) => {
-             navigateTo('/activities/persons')
+             useToast().error(e.data.message);
+         }).then(async (res) => {
+             if ( res.status.value.includes("success") ) {
+                 navigateTo('/activities/persons')
+                 useToast().success("Person removed");
+             } else
+                 useToast().error("Person could not be removed");
          });
      }
  }
@@ -69,9 +75,6 @@
      data() {
          return {
              form: {
-                 //firstname: person.firstname,
-                 //lastname: person.lastname,
-                 //email: person.email,
                  showForm: false
              }
          };
@@ -87,7 +90,7 @@
                  method: 'PUT',
                  body: person//formData
              }).catch((e) => {
-                 console.log("ERROR", e.data.message);
+                 useToast().error(e.data.message);
              }).then(async (data) => {
                  reloadNuxtApp()
              });
