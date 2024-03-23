@@ -39,7 +39,7 @@
  const { id } = useRoute().params
  const uri = '/api/persons/' + id
 
- //  fetch the products
+ //  fetch the list of people
  const { data: person } = await useFetch(uri, { personID: id })
 
  if ( !person.value ) {
