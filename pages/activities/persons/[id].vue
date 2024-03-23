@@ -88,7 +88,7 @@
              }
              await useFetch(`/api/persons/${id}`, {
                  method: 'PUT',
-                 body: person//formData
+                 body: person
              }).catch((e) => {
                  useToast().error(e.data.message);
              }).then(async (data) => {
