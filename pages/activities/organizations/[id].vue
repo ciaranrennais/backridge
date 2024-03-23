@@ -1,7 +1,7 @@
 <template>
     <div>
         <h2>{{ organization.name }}</h2>
-        <p>{{ organization.countryISOCode }}</p>
+        <p>{{ organization.country }}</p>
         <h2>Contact Person</h2>
         <p>{{ organization.contactPerson.firstname }} {{ organization.contactPerson.lastname }}</p>
         <p>{{ organization.contactPerson.email }}</p>

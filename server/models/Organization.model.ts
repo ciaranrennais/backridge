@@ -7,7 +7,7 @@ const schema: mongoose.Schema = new mongoose.Schema(
             type: String,
             required: true,
         },
-        countryISOCode: {
+        country: {
             type: String,
             required: true,
         },
