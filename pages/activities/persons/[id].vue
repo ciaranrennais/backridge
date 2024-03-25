@@ -1,5 +1,5 @@
 <template>
-    <div v-if="!form.showForm">
+    <div v-if="!page.showForm">
         <table class="w-1/4">
             <tbody>
                 <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
@@ -19,23 +19,20 @@
     </div>
 
     <div>
-        <form @submit.prevent="submitForm(person)" id="personForm" v-if="form.showForm" class="flex space-x-4">
-            <input v-model="person.firstname" type="text" name="firstname" placeholder="First name" required></input>
-            <input v-model="person.lastname" type="text" name="lastname" placeholder="Last name" required></input>
-            <input v-model="person.email" type="email" name="email" placeholder="Enter email" required></input>
-            <button type="submit" class="btn">Update</button>
-        </form>
+        <FormsPersonForm v-if="page.showForm" :person=person :isUpdate=true />
     </div>
 
     <div class="flex space-x-4 mt-5">
-        <button class="btn-warning" @click="editPerson" id="editPersonButton">Edit Person</button>
-        <button v-if="!form.showForm" type="button" class="btn-danger" @click="deletePerson($event, person._id)">Delete</button>
+        <button class="btn-warning" @click="editPerson($event, page)" id="editPersonButton">Edit Person</button>
+        <button v-if="!page.showForm" type="button" class="btn-danger" @click="deletePerson($event, person._id)">Delete</button>
 
-        <NuxtLink v-if="!form.showForm" class="btn" to="/activities/persons">Back</NuxtLink>
+        <NuxtLink v-if="!page.showForm" class="btn" to="/activities/persons">Back</NuxtLink>
     </div>
 </template>
 
 <script setup>
+ import { FormsPersonForm } from '#components'
+
  const { id } = useRoute().params
  const uri = '/api/persons/' + id
 
@@ -49,10 +46,17 @@
  definePageMeta({
      layout: "activities",
  })
+
 </script>
 
 <script>
  import useToast from "/components/useToast";
+
+ export default {
+     data() {
+         return { page: { showForm : false } }
+     }
+ }
 
  export async function deletePerson(event, person_id) {
      if ( confirm('Are you sure?') ) {
@@ -70,40 +74,12 @@
      }
  }
 
- export default {
-     name: 'personForm',
-     data() {
-         return {
-             form: {
-                 showForm: false
-             }
-         };
-     },
-     methods: {
-         submitForm: async function(person) {
-             const formData = new FormData();
-             const { id } = useRoute().params
-             for (let [key, value] of Object.entries(this.form)) {
-                 formData.append(key, value);
-             }
-             await useFetch(`/api/persons/${id}`, {
-                 method: 'PUT',
-                 body: person
-             }).catch((e) => {
-                 useToast().error(e.data.message);
-             }).then(async (data) => {
-                 reloadNuxtApp()
-             });
-         },
-         editPerson: function() {
-             this.form.showForm = !this.form.showForm;
-             let button = document.getElementById("editPersonButton");
-             if ( !this.form.showForm ) {
-                 button.textContent = "Edit Person";
-             } else {
-                 button.textContent = "Cancel";
-             }
-         }
+ export function editPerson(event, page) {
+     page.showForm = !page.showForm;
+     if ( !page.showForm ) {
+         event.target.innerText = "Edit Person";
+     } else {
+         event.target.innerText = "Cancel";
      }
  }
 </script>

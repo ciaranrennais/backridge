@@ -5,8 +5,8 @@ import getNextSequence from "~~/server/db/getNextSequence";
 export default defineEventHandler(async (event) => {
     // Get data form body
 
-    const person = await readBody(event);
-    const id = event.context.params.id;
+    const body = await readFormData(event);
+    const person = Object.fromEntries(body.entries());
 
     // validate
     // let { value, error } = PersonSchema.validate(body);

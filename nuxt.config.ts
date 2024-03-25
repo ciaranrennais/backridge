@@ -7,6 +7,12 @@ export default defineNuxtConfig({
     runtimeConfig: {
         MONGO_URI: process.env.MONGO_URI
     },
+    components: [
+        {
+            path: '~/components',
+            pathPrefix: false,
+        },
+    ],
     // register nitro plugin
     nitro: {
         plugins: ["@/server/db/index.ts"],

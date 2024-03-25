@@ -14,22 +14,19 @@
         </div>
 
         <div class="mt-5">
-            <button class="btn" @click="addPerson" id="addPersonButton">Add Person</button>
+            <button class="btn" @click="addPerson($event, page)" id="addPersonButton">Add Person</button>
         </div>
 
         <div class="mt-5">
-            <form @submit.prevent="submitForm" id="personForm" v-if="form.showForm" class="flex space-x-4">
-                <input v-model="form.firstname" type="text" name="firstname" placeholder="First name" required></input>
-                <input v-model="form.lastname" type="text" name="lastname" placeholder="Last name" required></input>
-                <input v-model="form.email" type="email" name="email" placeholder="Enter email" required></input>
-                <button type="submit" class="btn">Create</button>
-            </form>
+            <FormsPersonForm v-if="page.showForm" :person=null :isUpdate=false />
         </div>
     </div>
 
 </template>
 
 <script setup>
+ import { FormsPersonForm } from '#components'
+
  definePageMeta({
      layout: 'activities'
  })
@@ -43,45 +40,22 @@
  export default {
      name: 'personForm',
      data() {
-         return {
-             form: {
-                 firstname: "",
-                 lastname: "",
-                 email: "",
-                 showForm: false
-             }
-         };
-     },
-     methods: {
-         submitForm: async function() {
-             const formData = new FormData();
-             for (let [key, value] of Object.entries(this.form)) {
-                 formData.append(key, value);
-             }
-             await useFetch('/api/persons/create', {
-                 method: 'POST',
-                 body: formData
-             }).catch((e) => {
-                 useToast().error(e.data.message);
-             }).then(async (data) => {
-                 await reloadNuxtApp();
-                 useToast().success('Person created');
-             });
-         },
-         addPerson: function() {
-             this.form.showForm = !this.form.showForm;
-             let button = document.getElementById("addPersonButton");
-             if ( !this.form.showForm ) {
-                 button.textContent = "Add Person";
-                 button.classList.remove('btn-warning');
-                 button.classList.add('btn');
-                 this.form.firstname = this.form.lastname = this.form.email = "";
-             } else {
-                 button.textContent = "Cancel";
-                 button.classList.remove('btn');
-                 button.classList.add('btn-warning');
-             }
-         }
+         return { page: { showForm : false } }
+     }
+ }
+
+ export function addPerson(event, page) {
+     page.showForm = !page.showForm;
+     let button = event.target;
+     if ( !page.showForm ) {
+         button.innerText = "Add Person";
+         button.classList.remove('btn-warning');
+         button.classList.add('btn');
+         this.form.firstname = this.form.lastname = this.form.email = "";
+     } else {
+         button.innerText = "Cancel";
+         button.classList.remove('btn');
+         button.classList.add('btn-warning');
      }
  }
 </script>
