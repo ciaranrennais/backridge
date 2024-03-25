@@ -27,7 +27,7 @@
 <script setup>
  import { FormsPersonForm } from '#components'
 
- definePageMeta({
+ Definepagemeta({
      layout: 'activities'
  })
 
@@ -51,7 +51,6 @@
          button.innerText = "Add Person";
          button.classList.remove('btn-warning');
          button.classList.add('btn');
-         this.form.firstname = this.form.lastname = this.form.email = "";
      } else {
          button.innerText = "Cancel";
          button.classList.remove('btn');

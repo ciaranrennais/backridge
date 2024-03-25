@@ -5,7 +5,8 @@ import getNextSequence from "~~/server/db/getNextSequence";
 export default defineEventHandler(async (event) => {
     // Get data form body
 
-    const organization = await readBody(event);
+    const body = await readFormData(event);
+    const organization = Object.fromEntries(body.entries());
 
     // validate
     // let { value, error } = OrganizationSchema.validate(body);
