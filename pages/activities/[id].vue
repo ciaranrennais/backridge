@@ -7,8 +7,12 @@
                     <td>{{ activity.name }}</td>
                 </tr>
                 <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-                    <td class="font-bold">Last name</td>
+                    <td class="font-bold">Legal Basis of Processing</td>
                     <td>{{ activity.legality }}</td>
+                </tr>
+                <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                    <td class="font-bold">Description</td>
+                    <td>{{ activity.description }}</td>
                 </tr>
                 <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
                     <td class="font-bold">Expiry Date</td>

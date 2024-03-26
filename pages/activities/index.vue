@@ -4,12 +4,12 @@
         <h2>Activities</h2>
 
         <div>
-            <div class="grid grid-cols-4 gap-5">
+            <div class="grid grid-cols-2 gap-5">
                 <div v-for="a in activities">
-                    <div class="box-border h-32 p-4 border-4">
+                    <div class="box-border h-64 p-4 border-4">
                         <NuxtLink class="url" :to="`/activities/${a.activityID}`">{{ a.name }}</NuxtLink>
-                        <p>{{ a.legality }}</p>
-                        <p>{{ new Date(a.expiryDate).toLocaleDateString("fr-CH") }}</p>
+                        <p><span class="font-bold"> Legal Basis</span>: {{ a.legality }}</p>
+                        <p>{{ a.description }}</p>
                     </div>
                 </div>
             </div>
