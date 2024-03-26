@@ -22,6 +22,10 @@ body {
     }
 
     .form-label {
-        @apply text-green-600 px-3 py-2;
+        @apply text-green-600 px-2 py-2;
+    }
+
+    .form-group {
+        @apply border m-1;
     }
 }
