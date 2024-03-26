@@ -19,6 +19,7 @@ const schema: mongoose.Schema = new mongoose.Schema(
             type: String,
             required: true,
         },
+        personCategories: [ { type: String } ],
         activityID: {
             type: Number,
             required: true

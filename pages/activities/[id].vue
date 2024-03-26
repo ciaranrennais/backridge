@@ -18,6 +18,10 @@
                     <td class="font-bold">Expiry Date</td>
                     <td>{{ new Date(activity.expiryDate).toLocaleDateString("fr-CH") }}</td>
                 </tr>
+                <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                    <td class="font-bold">Last Update</td>
+                    <td>{{ new Date(activity.updatedAt).toLocaleDateString("fr-CH") }}</td>
+                </tr>
             </tbody>
         </table>
     </div>

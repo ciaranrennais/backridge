@@ -8,7 +8,10 @@ export default defineEventHandler(async (event) => {
     const body = await readFormData(event);
     const activity = Object.fromEntries(body.entries());
 
+    activity.personCategories = activity.personCategories.split(',');
+
     console.log("Activity = ", activity);
+
     // validate
     // let { value, error } = ActivitySchema.validate(body);
     // if (error) {

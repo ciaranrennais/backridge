@@ -8,7 +8,9 @@
 
         <div class="form-group">
             <label class="form-label">Description</label>
-            <textarea v-model="form.description" class="w-full" type="text" name="description" placeholder="Activity description" required></textarea>
+            <textarea v-model="form.description" class="w-full"
+                      type="text" name="description"
+                      :placeholder=descriptionPlaceholder required></textarea>
         </div>
 
         <div class="form-group">
@@ -20,8 +22,15 @@
         </div>
 
         <div class="form-group">
+            <label class="form-label">Category of Person</label>
+            <Multiselect v-model="form.personCategories"
+                         :options="personCategoryOptions" mode="tags"/>
+        </div>
+
+        <div class="form-group">
             <label class="form-label">Expiry date</label>
-            <vue-date-picker v-model=form.expiryDate class="flex space-x-2" :locale="fr-CH" :enable-time-picker="false" :format="format" required />
+            <vue-date-picker v-model=form.expiryDate class="flex space-x-2"
+                             :locale="fr-CH" :enable-time-picker="false" :format="format" required />
         </div>
 
         <span><button type="submit" class="btn"> {{ isUpdate ? "Update" : "Create "}}</button></span>
@@ -40,6 +49,8 @@
 </script>
 
 <script>
+ import Multiselect from '@vueform/multiselect'
+
  const format = (date) => {
      const day = date.getDate();
      const month = date.getMonth() + 1;
@@ -47,6 +58,8 @@
 
      return `Expiry Date: ${day}.${month}.${year}`;
  }
+
+ const descriptionPlaceholder = "Describe briefly the nature of the activity";
 
  export default {
      name: 'activityForm',
@@ -57,7 +70,11 @@
              descritpion: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus...",
              expiryDate: new Date()
          } : toRaw(this.activity);
-         return { form: fields };
+         return {
+             form: fields,
+             personCategoryOptions: ['Employee', 'Supplier', 'Client',
+                                     'Prospect', 'Share-holder', 'Association member', 'Other']
+         };
      },
      methods: {
          submitForm: async function() {
@@ -91,3 +108,5 @@
  }
 
 </script>
+
+<style src="@vueform/multiselect/themes/default.css"></style>
