@@ -2,7 +2,7 @@
 export default defineNuxtConfig({
     devtools: { enabled: true },
     modules: [
-        '@nuxtjs/tailwindcss'
+        '@nuxtjs/tailwindcss', 'floating-vue/nuxt'
     ],
     runtimeConfig: {
         MONGO_URI: process.env.MONGO_URI

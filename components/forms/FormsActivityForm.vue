@@ -1,19 +1,19 @@
 <template>
     <form @submit.prevent="submitForm" id="activityForm" class="border-4 grid gird-cols-1 gap-5">
 
-        <div class="form-group">
+        <div class="form-group" v-tooltip="tooltip('name')">
             <label class="form-label">Activity Name</label>
             <input v-model="form.name" type="text" name="name" placeholder="Activity name" required></input>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" v-tooltip="tooltip('description')">
             <label class="form-label">Description</label>
             <textarea v-model="form.description" class="w-full"
                       type="text" name="description"
                       :placeholder=descriptionPlaceholder required></textarea>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" v-tooltip="tooltip('legalBasis')">
             <label class="form-label">Legal Basis of Processing</label>
             <select v-model="form.legality" required class="w-48">
                 <option value="" disabled hidden>Legality of Processing</option>
@@ -21,26 +21,28 @@
             </select>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" v-tooltip="tooltip('personCategories')">
             <label class="form-label">Category of Person</label>
             <Multiselect v-model="form.personCategories"
                          :options="personCategoryOptions" mode="tags"/>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" v-tooltip="tooltip('expiryDate')">
             <label class="form-label">Expiry date</label>
             <vue-date-picker v-model=form.expiryDate class="flex space-x-2"
-                             :locale="fr-CH" :enable-time-picker="false" :format="format" required />
+                             :locale="fr" :enable-time-picker="false" :format="format" required />
         </div>
 
         <span><button type="submit" class="btn"> {{ isUpdate ? "Update" : "Create "}}</button></span>
+
     </form>
 </template>
 
 <script setup>
- import { ref } from 'vue';
  import VueDatePicker from '@vuepic/vue-datepicker';
  import '@vuepic/vue-datepicker/dist/main.css'
+
+ import { Tooltip } from 'floating-vue'
 
  const { activity, isUpdate } = defineProps(['activity', 'isUpdate'])
 
@@ -107,6 +109,16 @@
      }
  }
 
+ const tooltips = {
+     name: "Give a meaningful name for the activity",
+     description: "A short description of what this activity is, and why it is important for your organization",
+     legalBasis: 'What is the legal basis for processing this data?',
+     personCategories: 'Specify the categories of people whose data you process in this activity',
+     expiryDate: 'What is the data after which you must delete this personal data'
+ }
+ export function tooltip(field) {
+     return tooltips[field];
+ }
 </script>
 
 <style src="@vueform/multiselect/themes/default.css"></style>
