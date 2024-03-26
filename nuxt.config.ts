@@ -17,6 +17,9 @@ export default defineNuxtConfig({
     nitro: {
         plugins: ["@/server/db/index.ts"],
     },
+    build: {
+        transpile: ["@vuepic/vue-datepicker"],
+    },
     app : {
         head: {
             title: 'Backridge Data Compliance',

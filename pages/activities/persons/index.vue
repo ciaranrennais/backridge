@@ -27,7 +27,7 @@
 <script setup>
  import { FormsPersonForm } from '#components'
 
- Definepagemeta({
+ definePageMeta({
      layout: 'activities'
  })
 

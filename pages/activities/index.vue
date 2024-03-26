@@ -15,6 +15,14 @@
             </div>
         </div>
 
+        <div class="mt-5">
+            <button class="btn" @click="addActivity($event, page)" id="addActivityButton">Add Activity</button>
+        </div>
+
+        <div class="mt-5">
+            <FormsActivityForm v-if="page.showForm" :activity=null :isUpdate=false />
+        </div>
+
     </div>
 
 </template>
@@ -26,6 +34,31 @@
 
  const { data: activities } = await useFetch('/api/activities')
 
+</script>
+
+<script>
+ import useToast from "/components/useToast";
+
+ export default {
+     name: 'activityForm',
+     data() {
+         return { page: { showForm : false } }
+     }
+ }
+
+ export function addActivity(event, page) {
+     page.showForm = !page.showForm;
+     let button = event.target;
+     if ( !page.showForm ) {
+         button.innerText = "Add Activity";
+         button.classList.remove('btn-warning');
+         button.classList.add('btn');
+     } else {
+         button.innerText = "Cancel";
+         button.classList.remove('btn');
+         button.classList.add('btn-warning');
+     }
+ }
 </script>
 
 <style scoped>
