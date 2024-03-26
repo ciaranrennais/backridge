@@ -22,10 +22,14 @@ body {
     }
 
     .form-label {
-        @apply text-green-600 px-2 py-2;
+        @apply text-green-600 px-2 py-2 col-span-1;
+    }
+
+    .form-value {
+        @apply col-span-3;
     }
 
     .form-group {
-        @apply border m-1;
+        @apply border m-1 grid grid-cols-4;
     }
 }
