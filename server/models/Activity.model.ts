@@ -15,6 +15,10 @@ const schema: mongoose.Schema = new mongoose.Schema(
             type: Date,
             required: true,
         },
+        description: {
+            type: String,
+            required: true,
+        },
         activityID: {
             type: Number,
             required: true

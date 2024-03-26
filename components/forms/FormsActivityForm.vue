@@ -1,12 +1,30 @@
 <template>
-    <form @submit.prevent="submitForm" id="activityForm" class="flex space-x-4">
-        <input v-model="form.name" type="text" name="name" placeholder="Activity name" required></input>
-        <select v-model="form.legality" required>
-            <option value="" disabled hidden>Legality of Processing</option>
-            <option v-for="reason in legalReasons">{{ reason }}</option>
-        </select>
-        <vue-date-picker v-model=form.expiryDate class="flex space-x-2" :name="ABZ" :locale="fr-CH" :enable-time-picker="false" :format="format" required />
-        <button type="submit" class="btn"> {{ isUpdate ? "Update" : "Create "}}</button>
+    <form @submit.prevent="submitForm" id="activityForm" class="grid gird-cols-1 gap-5">
+
+        <div>
+            <label class="form-label">Activity Name</label>
+            <input v-model="form.name" type="text" name="name" placeholder="Activity name" required></input>
+        </div>
+
+        <div>
+            <label class="form-label">Description</label>
+            <textarea v-model="form.description" class="w-full" type="text" name="description" placeholder="Activity description" required></textarea>
+        </div>
+
+        <div>
+            <label class="form-label">Legal Basis of Processing</label>
+            <select v-model="form.legality" required class="w-48">
+                <option value="" disabled hidden>Legality of Processing</option>
+                <option v-for="reason in legalReasons">{{ reason }}</option>
+            </select>
+        </div>
+
+        <div>
+            <label class="form-label">Expiry date</label>
+            <vue-date-picker v-model=form.expiryDate class="flex space-x-2" :locale="fr-CH" :enable-time-picker="false" :format="format" required />
+        </div>
+
+        <span><button type="submit" class="btn"> {{ isUpdate ? "Update" : "Create "}}</button></span>
     </form>
 </template>
 
@@ -22,7 +40,6 @@
 </script>
 
 <script>
-
  const format = (date) => {
      const day = date.getDate();
      const month = date.getMonth() + 1;
@@ -37,6 +54,7 @@
          let fields = ( !this.isUpdate ) ? {
              name: "",
              legality: "",
+             descritpion: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus...",
              expiryDate: new Date()
          } : toRaw(this.activity);
          return { form: fields };

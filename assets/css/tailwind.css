@@ -20,4 +20,8 @@ body {
     .url {
         @apply text-green-600;
     }
+
+    .form-label {
+        @apply text-green-600 px-3 py-2;
+    }
 }
