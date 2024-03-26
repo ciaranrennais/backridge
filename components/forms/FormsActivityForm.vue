@@ -1,42 +1,59 @@
 <template>
     <form @submit.prevent="submitForm" id="activityForm" class="border-4 grid gap-2">
 
-        <div class="form-group" v-tooltip="tooltip('name')">
-            <label class="form-label">Activity Name</label>
-            <input v-model="form.name" type="text" name="name"
-                   class="form-value" placeholder="Activity name" required></input>
+        <div class="form-section">
+
+            <div class="form-section-title">Core Information</div>
+
+            <div class="form-group" v-tooltip="tooltip('name')">
+                <label class="form-label">Activity Name</label>
+                <input v-model="form.name" type="text" name="name"
+                       class="form-value" placeholder="Activity name" required></input>
+            </div>
+
+            <div class="form-group" v-tooltip="tooltip('description')">
+                <label class="form-label">Description</label>
+                <textarea v-model="form.description" class="form-value"
+                          type="text" name="description" rows="8"
+                          :placeholder=descriptionPlaceholder required></textarea>
+            </div>
+
+            <div class="form-group" v-tooltip="tooltip('legalBasis')">
+                <label class="form-label">Legal Basis of Processing</label>
+                <select v-model="form.legality" required class="form-value">
+                    <option value="" disabled hidden>Legality of Processing</option>
+                    <option v-for="reason in legalReasons">{{ reason }}</option>
+                </select>
+            </div>
+
+            <div class="form-group" v-tooltip="tooltip('personCategories')">
+                <label class="form-label">Category of Person</label>
+                <Multiselect v-model="form.personCategories" class="form-value"
+                             :options="personCategoryOptions" mode="tags"/>
+            </div>
+
+            <div class="form-group" v-tooltip="tooltip('expiryDate')">
+                <label class="form-label">Expiry date</label>
+                <vue-date-picker v-model=form.expiryDate class="flex space-x-2"
+                                 :locale="fr" :enable-time-picker="false" :format="format" required />
+            </div>
         </div>
 
-        <div class="form-group" v-tooltip="tooltip('description')">
-            <label class="form-label">Description</label>
-            <textarea v-model="form.description" class="form-value"
-                      type="text" name="description" rows="8"
-                      :placeholder=descriptionPlaceholder required></textarea>
-        </div>
+        <div class="form-section">
 
-        <div class="form-group" v-tooltip="tooltip('legalBasis')">
-            <label class="form-label">Legal Basis of Processing</label>
-            <select v-model="form.legality" required class="form-value">
-                <option value="" disabled hidden>Legality of Processing</option>
-                <option v-for="reason in legalReasons">{{ reason }}</option>
-            </select>
-        </div>
+            <div class="form-section-title">Data Transfers</div>
 
-        <div class="form-group" v-tooltip="tooltip('personCategories')">
-            <label class="form-label">Category of Person</label>
-            <Multiselect v-model="form.personCategories" class="form-value"
-                         :options="personCategoryOptions" mode="tags"/>
-        </div>
-
-        <div class="form-group" v-tooltip="tooltip('expiryDate')">
-            <label class="form-label">Expiry date</label>
-            <vue-date-picker v-model=form.expiryDate class="flex space-x-2"
-                             :locale="fr" :enable-time-picker="false" :format="format" required />
+            <div class="form-group" v-tooltip="tooltip('otherOrganizations')">
+                <label class="form-label">Transfers to Other Organizations</label>
+                <Multiselect v-model="form.otherOrganizations" class="form-value"
+                             :options="organizations" mode="tags"/>
+            </div>
         </div>
 
         <span><button type="submit" class="btn"> {{ isUpdate ? "Update" : "Create "}}</button></span>
 
     </form>
+
 </template>
 
 <script setup>
@@ -49,6 +66,12 @@
 
  const legalReasons = ['Consent', 'Legal Obligation', 'Legitimate Interest']
 
+ const { data: orgs } = await useFetch('/api/organizations')
+
+ let organizations = {}
+ for (const element of orgs._value) {
+     organizations[element._id] = element.name;
+ }
 </script>
 
 <script>
@@ -71,8 +94,9 @@
              name: "",
              legality: "",
              descritpion: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus...",
-             expiryDate: new Date()
-         } : toRaw(this.activity);
+             expiryDate: new Date(),
+             otherOrganizations: []
+         } : getIDs(this.activity);
          return {
              form: fields,
              personCategoryOptions: ['Employee', 'Supplier', 'Client',
@@ -103,11 +127,20 @@
                      useToast().error(e.data.message);
                  }).then(async (data) => {
                      await reloadNuxtApp();
-                     useToast().success('Person created');
+                     useToast().success('Activity created');
                  });
              }
          }
      }
+ }
+
+ function getIDs(activity) {
+     let orgIDs = [];
+     for (const el of activity.otherOrganizations) {
+         orgIDs.push(el._id);
+     }
+     activity.otherOrganizations = orgIDs;
+     return activity;
  }
 
  const tooltips = {
@@ -115,7 +148,8 @@
      description: "A short description of what this activity is, and why it is important for your organization",
      legalBasis: 'What is the legal basis for processing this data?',
      personCategories: 'Specify the categories of people whose data you process in this activity',
-     expiryDate: 'What is the data after which you must delete this personal data'
+     expiryDate: 'What is the data after which you must delete this personal data',
+     otherOrganizations: "Organizations to which data is transferred"
  }
  export function tooltip(field) {
      return tooltips[field];

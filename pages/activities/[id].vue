@@ -1,24 +1,32 @@
 <template>
     <div v-if="!page.showForm">
-        <table class="w-1/2">
+        <table class="table-fixed">
             <tbody>
-                <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                <tr class="table-row">
                     <td class="font-bold">Name</td>
                     <td>{{ activity.name }}</td>
                 </tr>
-                <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                <tr class="table-row">
                     <td class="font-bold">Legal Basis of Processing</td>
                     <td>{{ activity.legality }}</td>
                 </tr>
-                <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                <tr class="table-row">
                     <td class="font-bold">Description</td>
                     <td>{{ activity.description }}</td>
                 </tr>
-                <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                <tr class="table-row">
+                    <td class="font-bold">Categories of people</td>
+                    <td>{{ activity.personCategories.join(', ') }}</td>
+                </tr>
+                <tr class="table-row">
+                    <td class="font-bold">Transfer to Organizations</td>
+                    <td>{{ activity.otherOrganizations.map((x) => x.name).join(', ') }}</td>
+                </tr>
+                <tr class="table-row">
                     <td class="font-bold">Expiry Date</td>
                     <td>{{ new Date(activity.expiryDate).toLocaleDateString("fr-CH") }}</td>
                 </tr>
-                <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                <tr class="table-row">
                     <td class="font-bold">Last Update</td>
                     <td>{{ new Date(activity.updatedAt).toLocaleDateString("fr-CH") }}</td>
                 </tr>

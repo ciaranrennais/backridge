@@ -23,7 +23,11 @@ const schema: mongoose.Schema = new mongoose.Schema(
         activityID: {
             type: Number,
             required: true
-        }
+        },
+        otherOrganizations:[ {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Organization"
+        }],
     },
     { timestamps: true, strictPopulate: false }
 );

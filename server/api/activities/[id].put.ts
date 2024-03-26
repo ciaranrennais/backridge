@@ -9,6 +9,7 @@ export default defineEventHandler(async (event) => {
     const activity = Object.fromEntries(body.entries());
 
     activity.personCategories = activity.personCategories.split(',');
+    activity.otherOrganizations = activity.otherOrganizations.split(',');
 
     console.log("Activity = ", activity);
 
