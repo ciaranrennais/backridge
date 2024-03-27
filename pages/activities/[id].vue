@@ -30,6 +30,10 @@
                     <td class="font-bold">Last Update</td>
                     <td>{{ new Date(activity.updatedAt).toLocaleDateString("fr-CH") }}</td>
                 </tr>
+                <tr class="table-row">
+                    <td class="font-bold">International Transfer Status</td>
+                    <td><span>{{ transferStatus }}</span></td>
+                </tr>
             </tbody>
         </table>
     </div>
@@ -49,12 +53,13 @@
 
 <script setup>
 
-
  const { id } = useRoute().params
  const uri = '/api/activities/' + id
 
  //  fetch the list of people
  const { data: activity } = await useFetch(uri, { activityID: id })
+
+ const transferStatus = internationalTransferStatus(activity._value)
 
  definePageMeta({
      layout: 'activities'
