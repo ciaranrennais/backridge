@@ -3,7 +3,7 @@
         <input v-model="form.name" type="text" name="name" placeholder="Name" required></input>
         <select v-model="form.country" required>
             <option value="" disabled hidden>Country</option>
-            <option v-for="country in countries">{{ country }}</option>
+            <option v-for="country in Object.entries(getCountries())" :value="country[0]">{{ country[1] }}</option>
         </select>
         <select v-model="form.contactPerson" class="form-select" required>
             <option v-if=!isUpdate value="null" disabled hidden>Contact Person</option>
@@ -16,7 +16,11 @@
 <script setup>
  const { organization, isUpdate, people } = defineProps(['organization', 'isUpdate', 'people'])
 
- const countries = ['France', 'Germany', 'Ireland', 'Italy', 'Switzerland', 'United Kingdom', 'United States']
+ const cc = getCountries();
+ for (let [key, value] of Object.entries(cc)) {
+     console.log(key, " maps to ", value);
+ }
+
 </script>
 
 <script>
