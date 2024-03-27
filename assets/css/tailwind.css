@@ -42,6 +42,14 @@ body {
     }
 
     .table-row {
-        @apply odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700;
+        @apply odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 px-3;
+    }
+
+    .backridge-table {
+        @apply border-4 rounded mb-6 mt-2 ;
+    }
+
+    .warning {
+        @apply text-yellow-600;
     }
 }

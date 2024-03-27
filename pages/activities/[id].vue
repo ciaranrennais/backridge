@@ -1,9 +1,11 @@
 <template>
     <div v-if="!page.showForm">
-        <table class="table-fixed">
+
+        <div class="form-section-title">Basic Information</div>
+        <table class="table-fixed backridge-table">
             <tbody>
                 <tr class="table-row">
-                    <td class="font-bold">Name</td>
+                    <td class="font-bold w-48">Name</td>
                     <td>{{ activity.name }}</td>
                 </tr>
                 <tr class="table-row">
@@ -30,12 +32,22 @@
                     <td class="font-bold">Last Update</td>
                     <td>{{ new Date(activity.updatedAt).toLocaleDateString("fr-CH") }}</td>
                 </tr>
+            </tbody>
+        </table>
+
+        <div class="form-section-title">Status</div>
+        <table class="table-fixed backridge-table">
+            <tbody>
                 <tr class="table-row">
-                    <td class="font-bold">International Transfer Status</td>
-                    <td><span>{{ transferStatus }}</span></td>
+                    <td class="font-bold w-48">International Transfer Status</td>
+                    <td>
+                        <span v-if="transferStatus.warnings.length==0">No issues for international data transfer</span>
+                        <span class="warning" v-for="warning in transferStatus.warnings">{{ warning }}</span>
+                    </td>
                 </tr>
             </tbody>
         </table>
+
     </div>
 
     <div>
