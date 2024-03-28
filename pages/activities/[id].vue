@@ -1,4 +1,5 @@
 <template>
+
     <div v-if="!page.showForm">
 
         <div class="form-section-title">Basic Information</div>
@@ -31,6 +32,24 @@
                 <tr class="table-row">
                     <td class="font-bold">Last Update</td>
                     <td>{{ new Date(activity.updatedAt).toLocaleDateString("fr-CH") }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div v-if="activity.legality=='Consent'" class="form-section-title">Consent Explanation</div>
+        <table v-if="activity.legality=='Consent'" class="table-fixed backridge-table">
+            <tbody>
+                <tr class="table-row">
+                    <td class="font-bold w-48">How Consent was obtained</td>
+                    <td>{{ activity.consentDetails.collectionManner }}</td>
+                </tr>
+                <tr class="table-row">
+                    <td class="font-bold">How Consent was obtained</td>
+                    <td>{{ activity.consentDetails.revocationManner }}</td>
+                </tr>
+                <tr class="table-row">
+                    <td class="font-bold">Duration of Consent in Days</td>
+                    <td>{{ activity.consentDetails.daysValid }}</td>
                 </tr>
             </tbody>
         </table>

@@ -39,8 +39,30 @@
             </div>
         </div>
 
-        <div class="form-section">
+        <div class="form-section" v-if="form.legality=='Consent'">
+            <div class="form-section-title">Consent Details</div>
 
+            <div class="form-group" v-tooltip="tooltip('consent-collectionManner')">
+                <label class="form-label">How was consent obtained?</label>
+                <textarea v-model="form.consentDetails.collectionManner" class="form-value"
+                          type="text" name="description" rows="6"
+                          :placeholder=descriptionPlaceholder required></textarea>
+            </div>
+            <div class="form-group" v-tooltip="tooltip('consent-revocationManner')">
+                <label class="form-label">How may consent be revoked?</label>
+                <textarea v-model="form.consentDetails.revocationManner" class="form-value"
+                          type="text" name="description" rows="6"
+                          :placeholder=descriptionPlaceholder required></textarea>
+            </div>
+            <div class="form-group" v-tooltip="tooltip('consent-daysValid')">
+                <label class="form-label">Duration of Consent</label>
+                <input v-model="form.consentDetails.daysValid" type="number" name="name"
+                       class="form-value" placeholder="Activity name" required></input>
+            </div>
+
+        </div>
+
+        <div class="form-section">
             <div class="form-section-title">Data Transfers</div>
 
             <div class="form-group" v-tooltip="tooltip('otherOrganizations')">
@@ -95,7 +117,12 @@
              legality: "",
              descritpion: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus...",
              expiryDate: new Date(),
-             otherOrganizations: []
+             otherOrganizations: [],
+             consentDetails: {
+                 collectionManner: "",
+                 revocationManner: "",
+                 daysValid: 0
+             }
          } : getIDs(this.activity);
          return {
              form: fields,
@@ -108,15 +135,17 @@
              const formData = new FormData();
              const { id } = useRoute().params
              for (let [key, value] of Object.entries(this.form)) {
-                 formData.append(key, value);
+                 formData.append(key, ( key == "consentDetails" ) ? JSON.stringify(value) : value);
              }
              if ( this.isUpdate ) {
                  await useFetch(`/api/activities/${id}`, {
                      method: 'PUT',
                      body: formData
                  }).catch((e) => {
+                     console.log(e);
                      useToast().error(e.data.message);
                  }).then(async (data) => {
+                     console.log(data)
                      reloadNuxtApp()
                  });
              } else {
@@ -149,7 +178,10 @@
      legalBasis: 'What is the legal basis for processing this data?',
      personCategories: 'Specify the categories of people whose data you process in this activity',
      expiryDate: 'What is the data after which you must delete this personal data',
-     otherOrganizations: "Organizations to which data is transferred"
+     otherOrganizations: "Organizations to which data is transferred",
+     "consent-collectionManner": "Explain how you prove that consent has been lawfully obtained",
+     "consent-revocationManner": "Explain how data subjects may remove consent",
+     "consent-daysValid": "How many days is consent valid for"
  }
  export function tooltip(field) {
      return tooltips[field];

@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import Consent from './Consent.model'
 
 // person schema
 const schema: mongoose.Schema = new mongoose.Schema(
@@ -24,10 +25,14 @@ const schema: mongoose.Schema = new mongoose.Schema(
             type: Number,
             required: true
         },
+        consentDetails: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: Consent
+        },
         otherOrganizations:[ {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Organization"
-        }],
+        }]
     },
     { timestamps: true, strictPopulate: false }
 );
